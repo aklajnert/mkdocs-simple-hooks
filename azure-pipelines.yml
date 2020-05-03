@@ -12,22 +12,22 @@ strategy:
   matrix:
     pypy3:
       python.version: 'pypy3'
-      tox.env: 'pypy3'
+      nox.env: 'tests-pypy3'
     Python35:
       python.version: '3.5'
-      tox.env: 'py35'
+      nox.env: 'tests-py35'
     Python36:
       python.version: '3.6'
-      tox.env: 'py36'
+      nox.env: 'tests-py36'
     Python37:
       python.version: '3.7'
-      tox.env: 'py37'
+      nox.env: 'tests-py37'
     Python38:
       python.version: '3.8'
-      tox.env: 'py38'
+      nox.env: 'tests-py38'
     Linting:
       python.version: '3.7'
-      tox.env: 'flake8'
+      nox.env: 'flake8'
 
 steps:
   - task: UsePythonVersion@0
@@ -37,13 +37,13 @@ steps:
     displayName: Use cached Python $(python.version) for tests.
 
   - script: |
-      pip install --upgrade pip tox
+      pip install --upgrade pip nox
     displayName: 'Install dependencies'
 
   - script: |
       ls -lah
-      tox -e $(tox.env)
-    displayName: 'tox -e $(tox.env)'
+      nox -e $(nox.env)
+    displayName: 'nox --session $(nox.env)'
 
   - task: PublishTestResults@2
     condition: and(succeededOrFailed(), eq(variables['publish'], 'true'))
