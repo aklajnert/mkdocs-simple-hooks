@@ -110,3 +110,23 @@ def test_valid_hook(tmpdir, monkeypatch):
     result = runner.invoke(build_command)
     assert result.exit_code == 0
     assert result.output == "from on_pre_build\nfrom on_post_build\n"
+
+
+def test_valid_hook_simple_module(tmpdir, monkeypatch):
+    with open(str(tmpdir / "hooks.py"), "w") as f:
+        f.write(
+            "def on_pre_build(*args, **kwargs):\n"
+            '    print("from on_pre_build")\n'
+            "def on_post_build(*args, **kwargs):\n"
+            '    print("from on_post_build")\n'
+        )
+
+    runner = setup_mkdocs(
+        {"on_pre_build": "hooks:on_pre_build", "on_post_build": "hooks:on_post_build",},
+        monkeypatch,
+        tmpdir,
+    )
+
+    result = runner.invoke(build_command)
+    assert result.exit_code == 0
+    assert result.output == "from on_pre_build\nfrom on_post_build\n"
