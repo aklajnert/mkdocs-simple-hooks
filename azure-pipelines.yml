@@ -41,6 +41,7 @@ steps:
     displayName: 'Install dependencies'
 
   - script: |
+      ls -lah
       tox -e $(tox.env)
     displayName: 'tox -e $(tox.env)'
 
