@@ -9,7 +9,7 @@ def setup_mkdocs(plugin_config, monkeypatch, tmpdir):
     (tmpdir / "docs").mkdir()
     (tmpdir / "site").mkdir()
     runner = CliRunner()
-    with open((tmpdir / "mkdocs.yml"), "w") as f:
+    with open(str(tmpdir / "mkdocs.yml"), "w") as f:
         yaml.dump(
             {
                 "site_name": "test",
@@ -55,7 +55,7 @@ def test_no_attribute(tmpdir, monkeypatch):
     test_docs = tmpdir / "no_attribute"
     test_docs.mkdir()
 
-    with open(test_docs / "hooks.py", "w") as f:
+    with open(str(test_docs / "hooks.py"), "w") as f:
         f.write("TEST = True")
 
     runner = setup_mkdocs(
@@ -74,7 +74,7 @@ def test_no_function(tmpdir, monkeypatch):
     test_docs = tmpdir / "no_function"
     test_docs.mkdir()
 
-    with open(test_docs / "hooks.py", "w") as f:
+    with open(str(test_docs / "hooks.py"), "w") as f:
         f.write("on_pre_build = True")
 
     runner = setup_mkdocs(
@@ -90,7 +90,7 @@ def test_valid_hook(tmpdir, monkeypatch):
     test_docs = tmpdir / "valid_hook"
     test_docs.mkdir()
 
-    with open(test_docs / "hooks.py", "w") as f:
+    with open(str(test_docs / "hooks.py"), "w") as f:
         f.write(
             "def on_pre_build(*args, **kwargs):\n"
             '    print("from on_pre_build")\n'
