@@ -15,16 +15,16 @@ strategy:
       nox.env: 'tests-pypy3'
     Python35:
       python.version: '3.5'
-      nox.env: 'tests-py3.5'
+      nox.env: 'tests-3.5'
     Python36:
       python.version: '3.6'
-      nox.env: 'tests-py3.6'
+      nox.env: 'tests-3.6'
     Python37:
       python.version: '3.7'
-      nox.env: 'tests-py3.7'
+      nox.env: 'tests-3.7'
     Python38:
       python.version: '3.8'
-      nox.env: 'tests-py3.8'
+      nox.env: 'tests-3.8'
     Linting:
       python.version: '3.7'
       nox.env: 'flake8'
@@ -41,7 +41,6 @@ steps:
     displayName: 'Install dependencies'
 
   - script: |
-      ls -lah
       nox -e $(nox.env)
     displayName: 'nox --session $(nox.env)'
 
