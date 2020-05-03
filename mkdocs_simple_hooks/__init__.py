@@ -18,7 +18,7 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
         for name, hook_path in hooks.items():
             if not name.startswith("on_"):
                 warns.append(
-                    "'{}' is not va__path__lid hook name, will be ignored.".format(name)
+                    "'{}' is not valid hook name, will be ignored.".format(name)
                 )
                 continue
 
