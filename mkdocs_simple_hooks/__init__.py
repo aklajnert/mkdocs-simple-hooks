@@ -2,6 +2,11 @@ from functools import partial
 
 import mkdocs
 
+try:
+    ModuleNotFoundError
+except NameError:
+    ModuleNotFoundError = ImportError
+
 
 class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
     config_scheme = (("hooks", mkdocs.config.config_options.Type(dict, default={})),)
