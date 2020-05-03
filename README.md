@@ -33,8 +33,10 @@ Just define a function and register it as a hook in the `mkdocs.yml`. The functi
 have the same API as the desired hook. To see available hooks and their API, see the
 events chapter in the [documentation][mkdocs-hooks].
 
+## Example
+
 Let's say you want to copy the `README.md` file to `docs/index.md`. To do that, create 
-a new file, let's say `docs/hooks.py`, and put the following function there:  
+a new file, e.g.: `docs/hooks.py`, and put the following function there:  
 
 ```python
 import shutil
