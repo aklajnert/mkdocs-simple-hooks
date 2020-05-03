@@ -1,0 +1,35 @@
+from setuptools import setup, find_packages
+
+with open('README.md', 'r') as fh:
+    long_description = fh.read()
+
+setup(
+    name='mkdocs-simple-hooks',
+    version='0.1.0',
+    author='Andrzej Klajnert',
+    author_email='python@aklajnert.pl',
+    description='Define your own hooks for mkdocs, without having to create a new package.',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    url='https://github.com/aklajnert/mkdocs-simple-hooks',
+    license='MIT',
+    packages=find_packages(),
+    install_requires=[
+        'mkdocs>=1'
+    ],
+    include_package_data=True,
+    zip_safe=False,
+    entry_points={
+        'mkdocs.plugins': [
+            'mkdocs-simple-hooks = mkdocs_simple_hooks:SimpleHooksPlugin'
+        ]
+    },
+    classifiers=[
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Intended Audience :: Developers',
+        'Topic :: Documentation'
+    ],
+)
