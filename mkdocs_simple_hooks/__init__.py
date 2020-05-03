@@ -4,7 +4,7 @@ import mkdocs
 
 try:
     ModuleNotFoundError
-except NameError:
+except NameError:  # pragma: no cover
     ModuleNotFoundError = ImportError
 
 
