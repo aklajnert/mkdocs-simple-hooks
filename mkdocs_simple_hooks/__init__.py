@@ -1,6 +1,7 @@
-from functools import partial
-
 import mkdocs
+import os
+import sys
+from functools import partial
 
 try:
     ModuleNotFoundError
@@ -37,6 +38,10 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
         return hook(*args, **kwargs)
 
     def _get_function(self, hook_path, warns):
+        cwd = os.getcwd()
+        if cwd not in sys.path:
+            sys.path.append(cwd)
+
         package_path, function = hook_path.split(":")
         try:
             hook_module = __import__(package_path)
