@@ -39,7 +39,7 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
 
     def _get_function(self, hook_path, warns):
         cwd = os.getcwd()
-        if cwd not in sys.path:
+        if cwd not in sys.path:  # pragma: no cover
             sys.path.append(cwd)
 
         package_path, function = hook_path.split(":")
