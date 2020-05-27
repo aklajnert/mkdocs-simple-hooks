@@ -28,8 +28,8 @@ def test_no_hooks_defined(tmpdir, monkeypatch):
     result = runner.invoke(build_command)
     assert result.exit_code == 0
     assert (
-        "Warning: No hooks defined. The mkdocs-simple-hooks plugin will not run anything."
-        in result.output
+        "Warning: No hooks defined. "
+        "The mkdocs-simple-hooks plugin will not run anything." in result.output
     )
 
 
@@ -65,7 +65,8 @@ def test_no_attribute(tmpdir, monkeypatch):
     result = runner.invoke(build_command)
     assert result.exit_code == 0
     assert (
-        "Config value: 'plugins'. Warning: Module 'no_attribute.hooks' doesn't have attribute 'on_pre_build'"
+        "Config value: 'plugins'. "
+        "Warning: Module 'no_attribute.hooks' doesn't have attribute 'on_pre_build'"
         in result.output
     )
 
