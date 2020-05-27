@@ -17,7 +17,7 @@ plugins:
   - search
   - mkdocs-simple-hooks:
       hooks:
-        - hook-name: "your.module:hook_function"
+        hook-name: "your.module:hook_function"
 ```
 
 > If you have no `plugins` entry in your config file yet, you'll likely also want to add the `search` plugin. MkDocs enables it by default if there is no `plugins` entry set.
@@ -51,7 +51,7 @@ Now, register the hook in your `mkdocs.yml`:
 plugins:
   - mkdocs-simple-hooks:
       hooks:
-        - on_pre_build: "docs.hooks:copy_readme"
+        on_pre_build: "docs.hooks:copy_readme"
 ```
 
 That's all - the `copy_readme()` function will run every time, before building the documentation.  
