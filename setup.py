@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="mkdocs-simple-hooks",
-    version="0.1.1",
+    version="0.1.2",
     author="Andrzej Klajnert",
     author_email="python@aklajnert.pl",
     description="Define your own hooks for mkdocs, without having to create a new package.",
