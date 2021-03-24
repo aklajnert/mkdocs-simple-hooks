@@ -114,11 +114,37 @@ def test_valid_hook_package(tmpdir, monkeypatch):
     assert result.output == "from on_pre_build\nfrom on_post_build\n"
 
 
+def test_valid_hook_namespace_package(tmpdir, monkeypatch):
+    test_docs = tmpdir / "hooks_ns_pkg"
+    test_docs.mkdir()
+
+    with open(str(test_docs / "hooks.py"), "w") as f:
+        f.write(
+            "def on_pre_build(*args, **kwargs):\n"
+            '    print("from on_pre_build")\n'
+            "def on_post_build(*args, **kwargs):\n"
+            '    print("from on_post_build")\n'
+        )
+
+    runner = setup_mkdocs(
+        {
+            "on_pre_build": "hooks_ns_pkg.hooks:on_pre_build",
+            "on_post_build": "hooks_ns_pkg.hooks:on_post_build",
+        },
+        monkeypatch,
+        tmpdir,
+    )
+
+    result = runner.invoke(build_command)
+    assert result.exit_code == 0
+    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+
+
 def test_valid_hook_subpackage(tmpdir, monkeypatch):
-    test_package = tmpdir / "hooks_pkg"
+    test_package = tmpdir / "hooks_top_pkg"
     test_package.mkdir()
     open(str(test_package / "__init__.py"), "w").close()
-    test_docs = test_package / "hooks_subpkg"
+    test_docs = test_package / "hooks_sub_pkg"
     test_docs.mkdir()
     open(str(test_docs / "__init__.py"), "w").close()
 
@@ -132,8 +158,8 @@ def test_valid_hook_subpackage(tmpdir, monkeypatch):
 
     runner = setup_mkdocs(
         {
-            "on_pre_build": "hooks_pkg.hooks_subpkg.hooks:on_pre_build",
-            "on_post_build": "hooks_pkg.hooks_subpkg.hooks:on_post_build",
+            "on_pre_build": "hooks_top_pkg.hooks_sub_pkg.hooks:on_pre_build",
+            "on_post_build": "hooks_top_pkg.hooks_sub_pkg.hooks:on_post_build",
         },
         monkeypatch,
         tmpdir,
