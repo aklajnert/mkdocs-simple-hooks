@@ -2,6 +2,7 @@ import mkdocs
 import os
 import sys
 from functools import partial
+import importlib
 
 try:
     ModuleNotFoundError
@@ -44,7 +45,7 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
 
         package_path, function = hook_path.split(":")
         try:
-            hook_module = __import__(package_path)
+            hook_module = importlib.import_module(package_path)
         except ModuleNotFoundError:
             warns.append("Cannot import module '{}'.".format(package_path))
             return
