@@ -87,7 +87,7 @@ def test_no_function(tmpdir, monkeypatch):
     assert "'no_function.hooks:on_pre_build' is not callable." in result.output
 
 
-def test_valid_hook(tmpdir, monkeypatch):
+def test_valid_hook_package(tmpdir, monkeypatch):
     test_docs = tmpdir / "valid_hook"
     test_docs.mkdir()
 
@@ -113,7 +113,7 @@ def test_valid_hook(tmpdir, monkeypatch):
     assert result.output == "from on_pre_build\nfrom on_post_build\n"
 
 
-def test_valid_hook_simple_module(tmpdir, monkeypatch):
+def test_valid_hook_module(tmpdir, monkeypatch):
     with open(str(tmpdir / "hooks.py"), "w") as f:
         f.write(
             "def on_pre_build(*args, **kwargs):\n"
