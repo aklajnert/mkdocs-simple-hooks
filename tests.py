@@ -90,6 +90,7 @@ def test_no_function(tmpdir, monkeypatch):
 def test_valid_hook_package(tmpdir, monkeypatch):
     test_docs = tmpdir / "hooks_pkg"
     test_docs.mkdir()
+    open(str(test_docs / "__init__.py"), "w").close()
 
     with open(str(test_docs / "hooks.py"), "w") as f:
         f.write(
@@ -116,8 +117,10 @@ def test_valid_hook_package(tmpdir, monkeypatch):
 def test_valid_hook_subpackage(tmpdir, monkeypatch):
     test_package = tmpdir / "hooks_pkg"
     test_package.mkdir()
+    open(str(test_package / "__init__.py"), "w").close()
     test_docs = test_package / "hooks_subpkg"
     test_docs.mkdir()
+    open(str(test_docs / "__init__.py"), "w").close()
 
     with open(str(test_docs / "hooks.py"), "w") as f:
         f.write(
