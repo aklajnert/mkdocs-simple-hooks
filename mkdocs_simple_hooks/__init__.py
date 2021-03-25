@@ -49,9 +49,6 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
         except ModuleNotFoundError:
             warns.append("Cannot import module '{}'.".format(package_path))
             return
-        module_name = package_path.split(".")[-1]
-        if hasattr(hook_module, module_name) and hook_module.__name__ != module_name:
-            hook_module = getattr(hook_module, module_name)
         hook_function = getattr(hook_module, function, None)
         if not hook_function:
             warns.append(
