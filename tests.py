@@ -87,8 +87,35 @@ def test_no_function(tmpdir, monkeypatch):
     assert "'no_function.hooks:on_pre_build' is not callable." in result.output
 
 
-def test_valid_hook(tmpdir, monkeypatch):
-    test_docs = tmpdir / "valid_hook"
+def test_valid_hook_package(tmpdir, monkeypatch):
+    test_docs = tmpdir / "hooks_pkg"
+    test_docs.mkdir()
+    open(str(test_docs / "__init__.py"), "w").close()
+
+    with open(str(test_docs / "hooks.py"), "w") as f:
+        f.write(
+            "def on_pre_build(*args, **kwargs):\n"
+            '    print("from on_pre_build")\n'
+            "def on_post_build(*args, **kwargs):\n"
+            '    print("from on_post_build")\n'
+        )
+
+    runner = setup_mkdocs(
+        {
+            "on_pre_build": "hooks_pkg.hooks:on_pre_build",
+            "on_post_build": "hooks_pkg.hooks:on_post_build",
+        },
+        monkeypatch,
+        tmpdir,
+    )
+
+    result = runner.invoke(build_command)
+    assert result.exit_code == 0
+    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+
+
+def test_valid_hook_namespace_package(tmpdir, monkeypatch):
+    test_docs = tmpdir / "hooks_ns_pkg"
     test_docs.mkdir()
 
     with open(str(test_docs / "hooks.py"), "w") as f:
@@ -101,8 +128,8 @@ def test_valid_hook(tmpdir, monkeypatch):
 
     runner = setup_mkdocs(
         {
-            "on_pre_build": "valid_hook.hooks:on_pre_build",
-            "on_post_build": "valid_hook.hooks:on_post_build",
+            "on_pre_build": "hooks_ns_pkg.hooks:on_pre_build",
+            "on_post_build": "hooks_ns_pkg.hooks:on_post_build",
         },
         monkeypatch,
         tmpdir,
@@ -113,7 +140,37 @@ def test_valid_hook(tmpdir, monkeypatch):
     assert result.output == "from on_pre_build\nfrom on_post_build\n"
 
 
-def test_valid_hook_simple_module(tmpdir, monkeypatch):
+def test_valid_hook_subpackage(tmpdir, monkeypatch):
+    test_package = tmpdir / "hooks_top_pkg"
+    test_package.mkdir()
+    open(str(test_package / "__init__.py"), "w").close()
+    test_docs = test_package / "hooks_sub_pkg"
+    test_docs.mkdir()
+    open(str(test_docs / "__init__.py"), "w").close()
+
+    with open(str(test_docs / "hooks.py"), "w") as f:
+        f.write(
+            "def on_pre_build(*args, **kwargs):\n"
+            '    print("from on_pre_build")\n'
+            "def on_post_build(*args, **kwargs):\n"
+            '    print("from on_post_build")\n'
+        )
+
+    runner = setup_mkdocs(
+        {
+            "on_pre_build": "hooks_top_pkg.hooks_sub_pkg.hooks:on_pre_build",
+            "on_post_build": "hooks_top_pkg.hooks_sub_pkg.hooks:on_post_build",
+        },
+        monkeypatch,
+        tmpdir,
+    )
+
+    result = runner.invoke(build_command)
+    assert result.exit_code == 0
+    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+
+
+def test_valid_hook_module(tmpdir, monkeypatch):
     with open(str(tmpdir / "hooks.py"), "w") as f:
         f.write(
             "def on_pre_build(*args, **kwargs):\n"
