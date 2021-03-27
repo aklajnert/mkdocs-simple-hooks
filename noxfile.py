@@ -1,7 +1,7 @@
 import nox
 
 
-@nox.session(python=["3.5", "3.6", "3.7", "3.8", "pypy3"])
+@nox.session(python=["3.5", "3.6", "3.7", "3.8", "3.9", "pypy3"])
 def tests(session):
     session.install(".[test]")
     session.run(

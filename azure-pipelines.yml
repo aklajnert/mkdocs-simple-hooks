@@ -25,6 +25,9 @@ strategy:
     Python38:
       python.version: '3.8'
       nox.env: 'tests-3.8'
+    Python39:
+      python.version: '3.9'
+      nox.env: 'tests-3.9'
     Linting:
       python.version: '3.7'
       nox.env: 'flake8'
