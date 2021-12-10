@@ -43,9 +43,9 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
         cwd = Path(os.getcwd())
         root_dir = cwd.parent
         if str(cwd) not in sys.path or str(root_dir) not in sys.path:  # pragma: no cover
-            sys.path.append(cwd)
+            sys.path.append(str(cwd))
             # allow hooks to be stored in the project's root directory
-            sys.path.append(root_dir)
+            sys.path.append(str(root_dir))
 
         package_path, function = hook_path.split(":")
         try:
