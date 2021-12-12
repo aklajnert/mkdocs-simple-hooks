@@ -111,7 +111,9 @@ def test_valid_hook_package(tmpdir, monkeypatch):
 
     result = runner.invoke(build_command)
     assert result.exit_code == 0
-    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+    output = result.output.splitlines()
+    assert output[0] == "from on_pre_build"
+    assert output[-1] == "from on_post_build"
 
 
 def test_valid_hook_namespace_package(tmpdir, monkeypatch):
@@ -137,7 +139,9 @@ def test_valid_hook_namespace_package(tmpdir, monkeypatch):
 
     result = runner.invoke(build_command)
     assert result.exit_code == 0
-    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+    output = result.output.splitlines()
+    assert output[0] == "from on_pre_build"
+    assert output[-1] == "from on_post_build"
 
 
 def test_valid_hook_subpackage(tmpdir, monkeypatch):
@@ -167,7 +171,9 @@ def test_valid_hook_subpackage(tmpdir, monkeypatch):
 
     result = runner.invoke(build_command)
     assert result.exit_code == 0
-    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+    output = result.output.splitlines()
+    assert output[0] == "from on_pre_build"
+    assert output[-1] == "from on_post_build"
 
 
 def test_valid_hook_module(tmpdir, monkeypatch):
@@ -187,4 +193,6 @@ def test_valid_hook_module(tmpdir, monkeypatch):
 
     result = runner.invoke(build_command)
     assert result.exit_code == 0
-    assert result.output == "from on_pre_build\nfrom on_post_build\n"
+    output = result.output.splitlines()
+    assert output[0] == "from on_pre_build"
+    assert output[-1] == "from on_post_build"
