@@ -10,7 +10,7 @@ Install the plugin using pip:
 pip install mkdocs-simple-hooks
 ```
 
-Next, add the plugin and hooks definition to your `mkdocs.yml`:
+Next, add a python module to either the `docs/` directory or the root mkdocs directory. Then, add the plugin and hooks definition to your `mkdocs.yml`:
 
 ```yaml
 plugins:
