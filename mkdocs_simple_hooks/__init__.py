@@ -3,6 +3,7 @@ import os
 import sys
 from functools import partial
 import importlib
+from pathlib import Path
 
 try:
     ModuleNotFoundError
@@ -39,9 +40,13 @@ class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
         return hook(*args, **kwargs)
 
     def _get_function(self, hook_path, warns):
-        cwd = os.getcwd()
-        if cwd not in sys.path:  # pragma: no cover
-            sys.path.append(cwd)
+        cwd = Path(os.getcwd())
+        root_dir = cwd.parent
+        if str(cwd) not in sys.path:  # pragma: no cover
+            sys.path.append(str(cwd))
+        # allow hooks to be stored in the project's root directory
+        if str(root_dir) not in sys.path:
+            sys.path.append(str(root_dir))
 
         package_path, function = hook_path.split(":")
         try:
