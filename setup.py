@@ -15,7 +15,7 @@ setup(
     url="https://github.com/aklajnert/mkdocs-simple-hooks",
     license="MIT",
     packages=find_packages(),
-    install_requires=["mkdocs>=1"],
+    install_requires=["mkdocs>=1.2"],
     extras_require={"test": ["pytest>=4.0", "pytest-cov"]},
     include_package_data=True,
     zip_safe=False,

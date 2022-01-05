@@ -1,9 +1,10 @@
-import mkdocs
+import importlib
 import os
 import sys
 from functools import partial
-import importlib
 from pathlib import Path
+
+import mkdocs
 
 try:
     ModuleNotFoundError
@@ -12,12 +13,19 @@ except NameError:  # pragma: no cover
 
 
 class SimpleHooksPlugin(mkdocs.plugins.BasePlugin):
-    config_scheme = (("hooks", mkdocs.config.config_options.Type(dict, default={})),)
+    config_scheme = (
+        ("hooks", mkdocs.config.config_options.Type(dict, default={})),
+        ("enabled", mkdocs.config.config_options.Type(bool, default=True)),
+    )
 
     def load_config(self, options, config_file_path=None):
         errs, warns = super(SimpleHooksPlugin, self).load_config(
             options, config_file_path
         )
+
+        if not self.config.get("enabled"):
+            return errs, warns
+
         hooks = self.config.get("hooks", {})
         if not hooks:
             warns.append(
