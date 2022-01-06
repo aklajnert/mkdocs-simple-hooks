@@ -31,7 +31,7 @@ a separate plugin package.
 
 Just define a function and register it as a hook in the `mkdocs.yml`. The function shall
 have the same API as the desired hook. To see available hooks and their API, see the
-events chapter in the [documentation][mkdocs-hooks].
+events chapter in the [mkdocs documentation][mkdocs-hooks].
 
 ## Example
 
@@ -56,6 +56,25 @@ plugins:
 
 That's all - the `copy_readme()` function will run every time, before building the documentation.  
 
+
+## Disabling the plugin
+
+You can use the `enabled` option to optionally disable this plugin. A possible use case is local development where you might want faster build times. It's recommended to use this option with an environment variable together with a default fallback (introduced in `mkdocs` v1.2.1, see [docs](https://www.mkdocs.org/user-guide/configuration/#environment-variables)). Example:
+
+```yaml
+plugins:
+  - mkdocs-simple-hooks:
+      enabled: !ENV [ENABLE_MKDOCS_SIMPLE_HOOKS, True]
+      hooks:
+        on_pre_build: "docs.hooks:copy_readme"
+```
+
+Which enables you to disable the plugin locally using:
+
+```bash
+export ENABLE_MKDOCS_SIMPLE_HOOKS=false
+mkdocs serve
+```
 
 [mkdocs-plugins]: http://www.mkdocs.org/user-guide/plugins/
 [mkdocs-hooks]: https://www.mkdocs.org/user-guide/plugins/#events

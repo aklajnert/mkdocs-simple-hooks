@@ -1,9 +1,10 @@
+import pytest
 import yaml
 from click.testing import CliRunner
 from mkdocs.__main__ import build_command
 
 
-def setup_mkdocs(plugin_config, monkeypatch, tmpdir):
+def setup_mkdocs(plugin_config, monkeypatch, tmpdir, enabled=True):
     monkeypatch.chdir(tmpdir)
     monkeypatch.syspath_prepend(tmpdir)
     (tmpdir / "docs").mkdir()
@@ -15,7 +16,14 @@ def setup_mkdocs(plugin_config, monkeypatch, tmpdir):
                 "site_name": "test",
                 "docs_dir": "docs",
                 "site_dir": "site",
-                "plugins": [{"mkdocs-simple-hooks": {"hooks": plugin_config}}],
+                "plugins": [
+                    {
+                        "mkdocs-simple-hooks": {
+                            "hooks": plugin_config,
+                            "enabled": enabled,
+                        }
+                    }
+                ],
             },
             f,
         )
@@ -196,3 +204,21 @@ def test_valid_hook_module(tmpdir, monkeypatch):
     output = result.output.splitlines()
     assert output[0] == "from on_pre_build"
     assert output[-1] == "from on_post_build"
+
+
+@pytest.mark.parametrize(
+    "enabled", [True, False],
+)
+def test_disabling_plugin(tmpdir, monkeypatch, enabled):
+    with open(str(tmpdir / "hooks.py"), "w") as f:
+        f.write(
+            "def on_pre_build(*args, **kwargs):\n" '    print("from on_pre_build")\n'
+        )
+
+    runner = setup_mkdocs(
+        {"on_pre_build": "hooks:on_pre_build",}, monkeypatch, tmpdir, enabled=enabled,
+    )
+
+    result = runner.invoke(build_command)
+    assert result.exit_code == 0
+    assert ("from on_pre_build" in result.output) == enabled
