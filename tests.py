@@ -1,3 +1,4 @@
+import pytest
 import yaml
 from click.testing import CliRunner
 from mkdocs.__main__ import build_command
@@ -205,24 +206,19 @@ def test_valid_hook_module(tmpdir, monkeypatch):
     assert output[-1] == "from on_post_build"
 
 
-def test_disabling_plugin(tmpdir, monkeypatch):
+@pytest.mark.parametrize(
+    "enabled", [True, False],
+)
+def test_disabling_plugin(tmpdir, monkeypatch, enabled):
     with open(str(tmpdir / "hooks.py"), "w") as f:
         f.write(
-            "def on_pre_build(*args, **kwargs):\n"
-            '    print("from on_pre_build")\n'
-            "def on_post_build(*args, **kwargs):\n"
-            '    print("from on_post_build")\n'
+            "def on_pre_build(*args, **kwargs):\n" '    print("from on_pre_build")\n'
         )
 
     runner = setup_mkdocs(
-        {"on_pre_build": "hooks:on_pre_build", "on_post_build": "hooks:on_post_build",},
-        monkeypatch,
-        tmpdir,
-        enabled=False,
+        {"on_pre_build": "hooks:on_pre_build",}, monkeypatch, tmpdir, enabled=enabled,
     )
 
     result = runner.invoke(build_command)
     assert result.exit_code == 0
-    output = result.output.splitlines()
-    assert output[0] != "from on_pre_build"
-    assert output[-1] != "from on_post_build"
+    assert ("from on_pre_build" in result.output) == enabled
