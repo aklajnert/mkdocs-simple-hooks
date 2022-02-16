@@ -194,7 +194,10 @@ def test_valid_hook_module(tmpdir, monkeypatch):
         )
 
     runner = setup_mkdocs(
-        {"on_pre_build": "hooks:on_pre_build", "on_post_build": "hooks:on_post_build",},
+        {
+            "on_pre_build": "hooks:on_pre_build",
+            "on_post_build": "hooks:on_post_build",
+        },
         monkeypatch,
         tmpdir,
     )
@@ -207,7 +210,8 @@ def test_valid_hook_module(tmpdir, monkeypatch):
 
 
 @pytest.mark.parametrize(
-    "enabled", [True, False],
+    "enabled",
+    [True, False],
 )
 def test_disabling_plugin(tmpdir, monkeypatch, enabled):
     with open(str(tmpdir / "hooks.py"), "w") as f:
@@ -216,7 +220,12 @@ def test_disabling_plugin(tmpdir, monkeypatch, enabled):
         )
 
     runner = setup_mkdocs(
-        {"on_pre_build": "hooks:on_pre_build",}, monkeypatch, tmpdir, enabled=enabled,
+        {
+            "on_pre_build": "hooks:on_pre_build",
+        },
+        monkeypatch,
+        tmpdir,
+        enabled=enabled,
     )
 
     result = runner.invoke(build_command)

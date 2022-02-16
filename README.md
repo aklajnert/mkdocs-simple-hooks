@@ -60,7 +60,7 @@ plugins:
         on_pre_build: "docs.hooks:get_cat"
 ```
 
-That's all - the `get_cat()` function will run every time, before building the documentation, and you can insert the image into a markdown file with `![hello cat](assets/img/latest_cat.png)`
+That's all - the `get_cat()` function will run every time, before building the documentation, and you can insert the image into a markdown file with `![hello cat](assets/img/latest_cat.png)`.
 
 Note: for inserting other file types, consider plugins like [mkdocs-markdownextradata-plugin](https://github.com/rosscdh/mkdocs-markdownextradata-plugin), [mkdocs-table-reader-plugin](https://github.com/timvink/mkdocs-table-reader-plugin), [mkdocs-charts-plugin](https://github.com/timvink/mkdocs-charts-plugin), [mkdocs-macros-plugin](https://github.com/fralau/mkdocs_macros_plugin) or the [snippets markdown extension](https://squidfunk.github.io/mkdocs-material/setup/extensions/python-markdown-extensions/#snippets).
 
