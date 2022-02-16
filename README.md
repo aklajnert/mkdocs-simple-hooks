@@ -33,12 +33,44 @@ Just define a function and register it as a hook in the `mkdocs.yml`. The functi
 have the same API as the desired hook. To see available hooks and their API, see the
 events chapter in the [mkdocs documentation][mkdocs-hooks].
 
-## Example
+## Example 1
+
+You might want to update certain assets in your website every time you build. For example the most recent ticker prices of a stock or the performance of the last machine learning model you built. 
+
+Let's say you want to include a new, random image of a cat everytime you build your website. To do that, create a new file, e.g.: `docs/hooks.py`, and put the following function there:
+
+```python
+# docs/hooks.py
+import shutil
+import requests
+
+def get_cat(*args, **kwargs):
+  url = 'https://cataas.com/cat/says/hello%20world!'
+  response = requests.get(url, stream=True)
+  with open('docs/assets/img/latest_cat.png', 'wb') as out_file:
+      shutil.copyfileobj(response.raw, out_file)
+```
+
+Now, register the hook in your `mkdocs.yml`:  
+
+```yaml
+plugins:
+  - mkdocs-simple-hooks:
+      hooks:
+        on_pre_build: "docs.hooks:get_cat"
+```
+
+That's all - the `get_cat()` function will run every time, before building the documentation, and you can insert the image into a markdown file with `![hello cat](assets/img/latest_cat.png)`
+
+Note: for inserting other file types, consider plugins like [mkdocs-markdownextradata-plugin](https://github.com/rosscdh/mkdocs-markdownextradata-plugin), [mkdocs-table-reader-plugin](https://github.com/timvink/mkdocs-table-reader-plugin), [mkdocs-charts-plugin](https://github.com/timvink/mkdocs-charts-plugin), [mkdocs-macros-plugin](https://github.com/fralau/mkdocs_macros_plugin) or the [snippets markdown extension](https://squidfunk.github.io/mkdocs-material/setup/extensions/python-markdown-extensions/#snippets).
+
+## Example 2
 
 Let's say you want to copy the `README.md` file to `docs/index.md`. To do that, create 
 a new file, e.g.: `docs/hooks.py`, and put the following function there:  
 
 ```python
+# docs/hooks.py
 import shutil
 
 def copy_readme(*args, **kwargs):
