@@ -7,4 +7,3 @@ repos:
     rev: v3.0.1
     hooks:
       - id: reorder-python-imports
-        args: [--separate-relative]
