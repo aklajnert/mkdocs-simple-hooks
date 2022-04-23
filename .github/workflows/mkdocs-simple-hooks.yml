@@ -21,7 +21,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         architecture: x64
     - name: Setup Nox
-      uses: excitedleigh/setup-nox@v2.0.0
+      uses: aklajnert/setup-nox@v2.0.1
     - name: nox --session ${{ env.nox.env }}
       run: nox -s tests-${{ matrix.python-version }} --error-on-missing-interpreters
 
