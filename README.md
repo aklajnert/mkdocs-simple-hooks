@@ -2,6 +2,10 @@
 
 Define your own hooks for mkdocs, without having to create a new package.
 
+# Deprecated!
+
+This plugin is no longer supported, as Mkdocs has its functionality implemented in version 1.4. See the [documentation](https://www.mkdocs.org/user-guide/configuration/#hooks).
+
 ## Setup
 
 Install the plugin using pip:
